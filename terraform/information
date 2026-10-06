@@ -1,0 +1,27 @@
+#### to make reverse proxy from public ec2 to private ec2 make configration in public ec2 to route traffic to private ec2
+
+#first) go to public ec2 and create file in this path sudo nano /etc/nginx/conf.d/reverse-proxy.conf
+
+#second) put this command to it and change the ip to privatge ip
+
+server {
+    listen 80;
+
+    server_name _;  # This listens to all incoming requests
+
+    location / {
+        proxy_pass http://<private-ec2-ip>:80;  # Replace with the private IP of the private EC2 instance
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+
+#third) restart nginx  sudo systemctl restart nginx 
+
+#forth) hit public ip for public ec2
+
+
+note we can run all that be bashscript named NRP.sh
