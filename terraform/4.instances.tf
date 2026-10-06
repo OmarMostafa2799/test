@@ -4,7 +4,7 @@ resource "aws_instance" "public-ec2" {
   instance_type = "t3.micro"
   subnet_id     = aws_subnet.public-subnet.id
   security_groups = [aws_security_group.sg.id]
-  availability_zone = "us-east-1a"
+  availability_zone = "eu-west-1a"
   key_name = aws_key_pair.my-key.key_name
 
   tags = {
