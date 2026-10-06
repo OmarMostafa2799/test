@@ -20,14 +20,15 @@ echo "Installing for user: $REAL_USER"
 echo "Home directory: $USER_HOME"
 
 echo ""
-echo "[1/7] Updating system packages..."
+echo "[1/8] Updating system packages..."
 dnf update -y
 
 echo ""
-echo "[2/7] Installing required packages..."
+echo "[2/8] Installing required packages..."
 dnf install -y \
     dnf-plugins-core \
     wget \
+    curl \
     unzip \
     git \
     python3 \
@@ -35,7 +36,7 @@ dnf install -y \
     openssh-clients
 
 echo ""
-echo "[3/7] Installing Terraform..."
+echo "[3/8] Installing Terraform..."
 
 dnf config-manager --add-repo \
     https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
@@ -43,17 +44,17 @@ dnf config-manager --add-repo \
 dnf install -y terraform
 
 echo ""
-echo "[4/7] Installing Ansible..."
+echo "[4/8] Installing Ansible..."
 
 dnf install -y ansible-core
 
 echo ""
-echo "[5/7] Installing AWS CLI..."
+echo "[5/8] Installing AWS CLI..."
 
-# Install AWS CLI v2
 AWS_ZIP="/tmp/awscliv2.zip"
 
-curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" \
+curl -fsSL \
+    "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" \
     -o "$AWS_ZIP"
 
 rm -rf /tmp/aws
@@ -65,20 +66,18 @@ unzip -q "$AWS_ZIP" -d /tmp
 rm -rf "$AWS_ZIP" /tmp/aws
 
 echo ""
-echo "[6/7] Creating SSH key..."
+echo "[6/8] Creating SSH key..."
 
 SSH_DIR="$USER_HOME/.ssh"
 PRIVATE_KEY="$SSH_DIR/key"
 PUBLIC_KEY="$SSH_DIR/key.pub"
 
-# Create .ssh directory
 mkdir -p "$SSH_DIR"
 
 chmod 700 "$SSH_DIR"
 
-# Create key only if it doesn't already exist
 if [ -f "$PRIVATE_KEY" ]; then
-    echo "SSH private key already exists:"
+    echo "SSH key already exists:"
     echo "$PRIVATE_KEY"
 else
     echo "Generating RSA 4096-bit SSH key..."
@@ -90,12 +89,10 @@ else
         -N "" \
         -C "$REAL_USER@$(hostname)"
 
-    echo "SSH key created:"
-    echo "Private key: $PRIVATE_KEY"
-    echo "Public key : $PUBLIC_KEY"
+    echo "SSH key created."
 fi
 
-# Fix permissions
+# Fix ownership and permissions
 chown -R "$REAL_USER:$REAL_USER" "$SSH_DIR"
 
 chmod 700 "$SSH_DIR"
@@ -103,7 +100,11 @@ chmod 600 "$PRIVATE_KEY"
 chmod 644 "$PUBLIC_KEY"
 
 echo ""
-echo "[7/7] Verifying installation..."
+echo "[7/8] Verifying installations..."
+
+echo ""
+echo "========== Git =========="
+git --version
 
 echo ""
 echo "========== Terraform =========="
@@ -118,26 +119,29 @@ echo "========== AWS CLI =========="
 aws --version
 
 echo ""
-echo "========== SSH Key =========="
-ls -l "$PRIVATE_KEY"
-ls -l "$PUBLIC_KEY"
+echo "========== Python =========="
+python3 --version
+
+echo ""
+echo "========== SSH =========="
+ssh -V
+
+echo ""
+echo "[8/8] SSH Key Information"
+
+echo ""
+echo "Private Key:"
+echo "$PRIVATE_KEY"
+
+echo ""
+echo "Public Key:"
+echo "$PUBLIC_KEY"
+
+echo ""
+echo "Public Key Content:"
+cat "$PUBLIC_KEY"
 
 echo ""
 echo "======================================"
 echo " DevOps Environment Ready"
-echo "======================================"
-
-echo ""
-echo "SSH Private Key:"
-echo "$PRIVATE_KEY"
-
-echo ""
-echo "SSH Public Key:"
-echo "$PUBLIC_KEY"
-
-echo ""
-echo "Public Key:"
-cat "$PUBLIC_KEY"
-
-echo ""
 echo "======================================"
