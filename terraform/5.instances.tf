@@ -1,6 +1,6 @@
 
 resource "aws_instance" "public-ec2" {
-  ami           = "ami-06b21ccaeff8cd686"
+  ami           = "ami-0056d98d3e05cdbd9"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public-subnet.id
   security_groups = [aws_security_group.sg.id]
