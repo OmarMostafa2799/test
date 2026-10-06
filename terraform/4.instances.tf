@@ -5,6 +5,7 @@ resource "aws_instance" "public-ec2" {
   subnet_id     = aws_subnet.public-subnet.id
   security_groups = [aws_security_group.sg.id]
   availability_zone = "eu-west-1a"
+  associate_public_ip_address = true
   key_name = aws_key_pair.my-key.key_name
 
   tags = {
