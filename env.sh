@@ -25,7 +25,6 @@ dnf update -y
 
 echo ""
 echo "[2/9] Installing required packages..."
-
 dnf install -y \
     dnf-plugins-core \
     wget \
@@ -34,28 +33,13 @@ dnf install -y \
     git \
     python3 \
     python3-pip \
-    openssh-clients \
-    bash-completion
+    bash-completion \
+    openssh-clients
 
 echo ""
-echo "[3/9] Enabling Bash Auto Completion..."
+echo "[3/9] Installing Auto Complete..."
 
-# Enable bash-completion for the user
-BASHRC="$USER_HOME/.bashrc"
-
-if ! grep -q "bash_completion" "$BASHRC" 2>/dev/null; then
-    cat >> "$BASHRC" <<'EOF'
-
-# Enable Bash completion
-if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-fi
-EOF
-fi
-
-chown "$REAL_USER:$REAL_USER" "$BASHRC"
-
-echo "Bash auto-completion enabled."
+#source /usr/share/bash-completion/bash_completion
 
 echo ""
 echo "[4/9] Installing Terraform..."
@@ -66,12 +50,12 @@ dnf config-manager --add-repo \
 dnf install -y terraform
 
 echo ""
-echo "[5/9] Installing Ansible..."
+echo "[5/8] Installing Ansible..."
 
 dnf install -y ansible-core
 
 echo ""
-echo "[6/9] Installing AWS CLI..."
+echo "[6/8] Installing AWS CLI..."
 
 AWS_ZIP="/tmp/awscliv2.zip"
 
@@ -149,10 +133,6 @@ echo "========== SSH =========="
 ssh -V
 
 echo ""
-echo "========== Bash Completion =========="
-rpm -q bash-completion
-
-echo ""
 echo "[9/9] SSH Key Information"
 
 echo ""
@@ -171,9 +151,3 @@ echo ""
 echo "======================================"
 echo " DevOps Environment Ready"
 echo "======================================"
-
-echo ""
-echo "Run this to activate auto-completion:"
-echo "source ~/.bashrc"
-echo ""
-echo "Or logout and login again."
