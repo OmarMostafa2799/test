@@ -1,6 +1,7 @@
 #!/bin/bash
 sudo yum update -y
 sudo yum install -y httpd
+sudo useradd --system --no-create-home --shell /sbin/nologin apache
 sudo systemctl start httpd
 sudo systemctl enable httpd
 
