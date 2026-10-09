@@ -162,13 +162,13 @@ echo "[7/9] Creating SSH key..."
 
 SSH_DIR="$USER_HOME/.ssh"
 
-PRIVATE_KEY="$SSH_DIR/key"
-PUBLIC_KEY="$SSH_DIR/key.pub"
+PRIVATE_KEY="$SSH_DIR/id_rsa"
+PUBLIC_KEY="$SSH_DIR/id_rsa.pub"
 
 # Create .ssh directory
 mkdir -p "$SSH_DIR"
 
-chmod 700 "$SSH_DIR"
+#chmod 700 "$SSH_DIR"
 
 # Create RSA 4096 key if it does not already exist
 if [ -f "$PRIVATE_KEY" ]; then
