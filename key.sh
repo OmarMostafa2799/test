@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cp ~/.ssh/key.pub terraform/key.pub
+cp ~/.ssh/id_rsa.pub terraform/key.pub
