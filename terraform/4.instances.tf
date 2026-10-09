@@ -6,7 +6,7 @@ resource "aws_instance" "public-ec2" {
   security_groups = [aws_security_group.sg.id]
   availability_zone = "eu-west-1a"
   associate_public_ip_address = true
-  user_data = "${file("script2.sh")}"
+  user_data = "${file("script1.sh")}"
   key_name = aws_key_pair.my-key.key_name
 
   tags = {
