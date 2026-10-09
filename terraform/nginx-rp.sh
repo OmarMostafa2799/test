@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+sudo touch /etc/nginx/conf.d/reverse-proxy.conf
 PRIVATE_EC2_IP="10.0.1.236"  # Replace with your private EC2 IP
 NGINX_CONF_PATH="/etc/nginx/conf.d/reverse-proxy.conf"
 
