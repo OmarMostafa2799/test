@@ -25,7 +25,7 @@ resource "aws_instance" "private-ec2" {
   key_name = aws_key_pair.my-key.key_name
 
   tags = {
-    Name = "PublicEC2Instance"
+    Name = "PrivateEC2Instance"
   }
 }
 
