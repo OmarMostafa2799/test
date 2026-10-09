@@ -1,7 +1,7 @@
 
 resource "aws_instance" "public-ec2" {
   ami           = "ami-0056d98d3e05cdbd9"
-  instance_type = "t3.micro"
+  instance_type = "t3.small"
   subnet_id     = aws_subnet.public-subnet.id
   security_groups = [aws_security_group.sg.id]
   availability_zone = "eu-west-1a"
@@ -17,7 +17,7 @@ resource "aws_instance" "public-ec2" {
 
 resource "aws_instance" "private-ec2" {
   ami           = "ami-0056d98d3e05cdbd9"
-  instance_type = "t3.micro"
+  instance_type = "t3.small"
   subnet_id     = aws_subnet.private-subnet.id
   security_groups = [aws_security_group.sg.id]
   availability_zone = "eu-west-1a"
