@@ -15,6 +15,19 @@ resource "aws_instance" "public-ec2" {
 }
 
 
+resource "aws_instance" "private-ec2" {
+  ami           = "ami-0056d98d3e05cdbd9"
+  instance_type = "t3.micro"
+  subnet_id     = aws_subnet.private-subnet.id
+  security_groups = [aws_security_group.sg.id]
+  availability_zone = "eu-west-1a"
+  user_data = "${file("script2.sh")}"
+  key_name = aws_key_pair.my-key.key_name
+
+  tags = {
+    Name = "PublicEC2Instance"
+  }
+}
 
 
 resource "aws_key_pair" "my-key" {
