@@ -2,7 +2,7 @@
 resource "aws_instance" "master-ec2" {
   ami           = "ami-0056d98d3e05cdbd9"
   instance_type = "t3.medium"
-  subnet_id     = aws_subnet.public-subnet.id
+  subnet_id     = aws_subnet.master-subnet.id
   security_groups = [aws_security_group.sg.id]
   availability_zone = "eu-west-1a"
   associate_public_ip_address = true
@@ -18,7 +18,7 @@ resource "aws_instance" "master-ec2" {
 resource "aws_instance" "worker-1-ec2" {
   ami           = "ami-0056d98d3e05cdbd9"
   instance_type = "t3.medium"
-  subnet_id     = aws_subnet.private-subnet.id
+  subnet_id     = aws_subnet.worker-1-subnet.id
   security_groups = [aws_security_group.sg.id]
   availability_zone = "eu-west-1a"
   key_name = aws_key_pair.my-key.key_name
