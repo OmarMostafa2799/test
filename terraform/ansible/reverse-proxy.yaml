@@ -1,11 +1,11 @@
-
 ---
 - name: Install and configure Nginx reverse proxy
-  hosts: all
+  hosts: public
   become: yes
 
   vars:
-    private_ec2_ip: "10.0.2.92"
+  # private_ec2_ip: "10.0.2.115"
+    private_ec2_ip: "{{ hostvars[groups['private'][0]]['ansible_host'] | default(groups['private'][0]) }}"
     proxy_port: 8080
 
   tasks:
