@@ -4,7 +4,7 @@ resource "aws_instance" "master-ec2" {
   instance_type = "t3.medium"
   subnet_id     = aws_subnet.public-subnet.id
   private_ip    = "10.0.1.10"
-  security_groups = [aws_security_group.sg.id]
+  security_groups = [aws_security_group.cluster.id]
   availability_zone = "eu-west-1a"
   associate_public_ip_address = true
  # user_data = "${file("script.sh")}"
@@ -21,7 +21,7 @@ resource "aws_instance" "workers" {
   ami           = "ami-0056d98d3e05cdbd9"
   instance_type = "t3.medium"
   subnet_id     = aws_subnet.privat-subnet.id
-  security_groups = [aws_security_group.sg.id]
+  security_groups = [aws_security_group.cluster.id]
   availability_zone = "eu-west-1a"
   key_name = aws_key_pair.my-key.key_name
 
