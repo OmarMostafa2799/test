@@ -1,5 +1,4 @@
-
-resource "aws_instance" "master-ec2" {
+resource "aws_instance" "master" {
   ami           = "ami-0056d98d3e05cdbd9"
   instance_type = "t3.medium"
   subnet_id     = aws_subnet.public-subnet.id
@@ -34,7 +33,7 @@ resource "aws_instance" "workers" {
 
 resource "aws_key_pair" "my-key" {
   key_name   = "my-key"
-  public_key = file("key.pub")  
+  public_key = file("key.pub")
 }
 
 
@@ -47,12 +46,11 @@ resource "local_file" "inventory" {
    filename = "../ansible/inventory"
    content  = <<EOT
  [master]
- ${aws_instance.master-ec2.public_ip}
+ ${aws_instance.master.public_ip}
 
  [private]
- ${aws_instance.worker-1-ec2.private_ip}
- ${aws_instance.worker-2-ec2.private_ip}
+ ${aws_instance.workers.private_ip}
+# ${aws_instance.workers.private_ip}
 
  EOT
  }
-
