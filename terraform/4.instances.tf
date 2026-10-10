@@ -29,6 +29,19 @@ resource "aws_instance" "worker-1-ec2" {
 }
 
 
+resource "aws_instance" "worker-2-ec2" {
+  ami           = "ami-0056d98d3e05cdbd9"
+  instance_type = "t3.medium"
+  subnet_id     = aws_subnet.worker-2-subnet.id
+  security_groups = [aws_security_group.sg.id]
+  availability_zone = "eu-west-1a"
+  key_name = aws_key_pair.my-key.key_name
+
+  tags = {
+    Name = "Worker-2-Node"
+  }
+}
+
 resource "aws_key_pair" "my-key" {
   key_name   = "my-key"
   public_key = file("key.pub")  
@@ -43,11 +56,13 @@ resource "aws_key_pair" "my-key" {
 resource "local_file" "inventory" {
    filename = "../ansible/inventory"
    content  = <<EOT
- [private]
- ${aws_instance.private-ec2.private_ip}
+ [master]
+ ${aws_instance.master-ec2.public_ip}
 
- [public]
- ${aws_instance.public-ec2.public_ip}
+ [private]
+ ${aws_instance.worker-1-ec2.private_ip}
+ ${aws_instance.worker-2-ec2.private_ip}
+
  EOT
  }
 
