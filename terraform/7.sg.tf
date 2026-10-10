@@ -19,7 +19,6 @@ resource "aws_security_group" "cluster" {
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
-    security_groups = [aws_security_group.cluster.id]
     self            = true
   }
 
